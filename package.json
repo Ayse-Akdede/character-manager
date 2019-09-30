@@ -1,0 +1,27 @@
+{
+  "name": "character-manager",
+  "version": "1.0.0",
+  "description": "Dashboard for displaying, create, delete, modify",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ayse-Akdede/character-manager.git"
+  },
+  "keywords": [
+    "display",
+    "heroes",
+    "characters"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Ayse-Akdede/character-manager/issues"
+  },
+  "homepage": "https://github.com/Ayse-Akdede/character-manager#readme",
+  "dependencies": {
+    "axios": "^0.19.0"
+  }
+}
