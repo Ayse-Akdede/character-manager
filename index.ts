@@ -12,8 +12,33 @@ const tpl: HTMLElement = <HTMLElement>document.querySelector("#template");
 const target: HTMLElement = <HTMLElement>document.querySelector("#target");
 const tplSingle: HTMLElement = <HTMLElement>document.querySelector("#singleChar");
 const single: HTMLElement = <HTMLElement>document.querySelector("#single");
+const newButton: HTMLElement = <HTMLElement>document.querySelector("#new");
+const newChar: HTMLElement = <HTMLElement>document.querySelector("#new-char");
+
+newButton.addEventListener('click', () => {
+    if (document.location.href != `/newchar`) {
+        document.location.href = `/newchar`;
+        newButton.innerHTML = "Retour";
+    } else {
+        newButton.innerHTML = "New";
+        document.location.href = `/index`;
+    }
+})
+
+newChar.addEventListener('click', () => {
+    let form: Node = document.querySelector("#form-new-char");
+    console.log(form.querySelector("#form-name").value);
+    console.log(form.querySelector("#form-short-description").value);
+    console.log(form.querySelector("#form-description").innerText);
+    console.log(form.querySelector("#form-image").value);
+})
 
 let chars: Array<Object> = [];
+
+
+async function closeModal() {
+    document.querySelector("#modal").style.display = "none";
+}
 
 
 async function viewChar(id: String) {
@@ -23,6 +48,7 @@ async function viewChar(id: String) {
 async function deleteChar(id: String) {
     console.log(`want to deleted : ${id}`);
     document.querySelector("#modal").style.display = "block";
+    document.querySelector("#close-modal").onclick = function () { closeModal() };
     document.querySelector(".idChar").innerHTML = id;
     //await axios.delete()
 }
@@ -67,10 +93,17 @@ async function getChar(id: String) {
     }).catch(err => { console.error(err) })
 }
 
+async function formNewChar() {
+    document.querySelector("#form-new-char").style.display = "block";
+}
+
 if (document.location.pathname == "/index") {
     getAllChar();
 } else if (document.location.pathname.startsWith("/viewchar")) {
     getChar(document.location.search.substring(3));
+} else if (document.location.pathname.startsWith("/newchar")) {
+    console.log('hello new char');
+    formNewChar()
 } else {
     document.location.href = "/index";
 }

@@ -51,7 +51,34 @@ var tpl = document.querySelector("#template");
 var target = document.querySelector("#target");
 var tplSingle = document.querySelector("#singleChar");
 var single = document.querySelector("#single");
+var newButton = document.querySelector("#new");
+var newChar = document.querySelector("#new-char");
+newButton.addEventListener('click', function () {
+    if (document.location.href != "/newchar") {
+        document.location.href = "/newchar";
+        newButton.innerHTML = "Retour";
+    }
+    else {
+        newButton.innerHTML = "New";
+        document.location.href = "/index";
+    }
+});
+newChar.addEventListener('click', function () {
+    var form = document.querySelector("#form-new-char");
+    console.log(form.querySelector("#form-name").value);
+    console.log(form.querySelector("#form-short-description").value);
+    console.log(form.querySelector("#form-description").innerText);
+    console.log(form.querySelector("#form-image").value);
+});
 var chars = [];
+function closeModal() {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            document.querySelector("#modal").style.display = "none";
+            return [2 /*return*/];
+        });
+    });
+}
 function viewChar(id) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -65,6 +92,7 @@ function deleteChar(id) {
         return __generator(this, function (_a) {
             console.log("want to deleted : " + id);
             document.querySelector("#modal").style.display = "block";
+            document.querySelector("#close-modal").onclick = function () { closeModal(); };
             document.querySelector(".idChar").innerHTML = id;
             return [2 /*return*/];
         });
@@ -129,11 +157,23 @@ function getChar(id) {
         });
     });
 }
+function formNewChar() {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            document.querySelector("#form-new-char").style.display = "block";
+            return [2 /*return*/];
+        });
+    });
+}
 if (document.location.pathname == "/index") {
     getAllChar();
 }
 else if (document.location.pathname.startsWith("/viewchar")) {
     getChar(document.location.search.substring(3));
+}
+else if (document.location.pathname.startsWith("/newchar")) {
+    console.log('hello new char');
+    formNewChar();
 }
 else {
     document.location.href = "/index";
