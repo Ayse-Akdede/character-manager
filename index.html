@@ -1,12 +1,48 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--Bootstrap CSS-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Style CSS -->
+    <link rel="stylesheet" type="text/css" href="index.css">
     <title>Document</title>
 </head>
+
 <body>
-    <script src="index.js"></script>
+    <header>
+        <h1>Character Manager</h1>
+        <button type="button" id="new">New</button>
+    </header>
+
+
+    <div class="container">
+
+        <div class="row">
+            <template id="template">
+                <div class="col-3">
+                    <li class="hero">
+                        <img class="image" src="">
+                        <h4 class="name"></h4>
+                        <p class="id"></p>
+                        <p class="sort-description"></p>
+                        <p class="description"></p>
+                        <button type="button" id="delete">delete</button>
+                        <button type="button" id="modify">modify</button>
+                    </li>
+                </div>
+            </template>
+        </div>
+
+        <ol id="target"></ol>
+
+
+
+        <script src="index.js"></script>
 </body>
+
 </html>

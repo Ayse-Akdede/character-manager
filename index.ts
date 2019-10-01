@@ -8,10 +8,10 @@
 import axios from "axios";
 const url = "https://character-database.becode.xyz/";
 
-async function getAllChar(){
+async function getAllChar() {
     await axios.get(`${url}characters`).then(data => {
         console.log(data);
-    }).catch(err=> {console.error(err)})
+    }).catch(err => { console.error(err) })
 }
 
 getAllChar();
