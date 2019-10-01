@@ -63,52 +63,42 @@ newButton.addEventListener('click', function () {
         document.location.href = "/index";
     }
 });
-newChar.addEventListener('click', function () {
-    var form = document.querySelector("#form-new-char");
-    console.log(form.querySelector("#form-name").value);
-    console.log(form.querySelector("#form-short-description").value);
-    console.log(form.querySelector("#form-description").innerText);
-    console.log(form.querySelector("#form-image").value);
-});
 var chars = [];
 function closeModal() {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            document.querySelector("#modal").style.display = "none";
-            return [2 /*return*/];
-        });
-    });
+    document.querySelector("#modal").style.display = "none";
 }
-function viewChar(id) {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            document.location.href = "viewchar?p=" + id;
-            return [2 /*return*/];
-        });
-    });
+function routeViewChar(id) {
+    document.location.href = "viewChar?p=" + id;
 }
-function deleteChar(id) {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            console.log("want to deleted : " + id);
-            document.querySelector("#modal").style.display = "block";
-            document.querySelector("#close-modal").onclick = function () { closeModal(); };
-            document.querySelector(".idChar").innerHTML = id;
-            return [2 /*return*/];
-        });
-    });
-}
-function editChar(id) {
+function delChar(id) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    console.log("want to mod : " + id);
-                    return [4 /*yield*/, axios_1.default.get()];
+                case 0: return [4 /*yield*/, axios_1.default.delete(url + "characters/" + id)
+                        .then(function (response) {
+                        alert("Character deleted with success !");
+                        closeModal();
+                        window.location.href = '/index';
+                    })
+                        .catch(function (err) { return console.error(err); })];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];
             }
+        });
+    });
+}
+function routeDeleteChar(id) {
+    document.querySelector("#modal").style.display = "block";
+    document.querySelector("#close-modal").onclick = function () { closeModal(); };
+    document.querySelector("#del-char").onclick = function () { delChar(id); };
+    document.querySelector(".idChar").innerHTML = id;
+}
+function routeEditChar(id) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            document.location.href = "editChar?p=" + id;
+            return [2 /*return*/];
         });
     });
 }
@@ -117,10 +107,19 @@ function displayAllCharacter(char) {
     clone.querySelector(".image").src = "data:image/png;base64," + char.image;
     clone.querySelector(".name").innerHTML = char.name;
     clone.querySelector(".short-description").innerHTML = char.shortDescription;
-    clone.querySelector("#delete").onclick = function () { deleteChar(char.id); };
-    clone.querySelector("#modify").onclick = function () { editChar(char.id); };
-    clone.querySelector(".wrapper").onclick = function () { viewChar(char.id); };
+    clone.querySelector("#delete").onclick = function () { routeDeleteChar(char.id); };
+    clone.querySelector("#modify").onclick = function () { routeEditChar(char.id); };
+    clone.querySelector(".wrapper").onclick = function () { routeViewChar(char.id); };
     target.appendChild(clone);
+}
+function displayChar(char) {
+    var clone = tplSingle.cloneNode(true).content;
+    clone.querySelector(".image").src = "data:image/jpeg;base64," + char.image;
+    clone.querySelector(".name").innerHTML = char.name;
+    clone.querySelector(".description").innerHTML = char.description;
+    clone.querySelector("#delete").onclick = function () { routeDeleteChar(char.id); };
+    clone.querySelector("#modify").onclick = function () { routeEditChar(char.id); };
+    single.appendChild(clone);
 }
 function getAllChar() {
     return __awaiter(this, void 0, void 0, function () {
@@ -141,17 +140,11 @@ function getAllChar() {
         });
     });
 }
-function getChar(id) {
+function getCharAndDisplay(id) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             axios_1.default.get(url + "characters/" + id).then(function (data) {
-                var clone = tplSingle.cloneNode(true).content;
-                clone.querySelector(".image").src = "data:image/jpeg;base64," + data.data.image;
-                clone.querySelector(".name").innerHTML = data.data.name;
-                clone.querySelector(".description").innerHTML = data.data.Description;
-                clone.querySelector("#delete").onclick = function () { deleteChar(data.data.id); };
-                clone.querySelector("#modify").onclick = function () { editChar(data.data.id); };
-                single.appendChild(clone);
+                displayChar(data.data);
             }).catch(function (err) { console.error(err); });
             return [2 /*return*/];
         });
@@ -165,15 +158,109 @@ function formNewChar() {
         });
     });
 }
+function updateChar(form) {
+    return __awaiter(this, void 0, void 0, function () {
+        var id, actualImg, file, reader_1;
+        return __generator(this, function (_a) {
+            id = form.querySelector("#form-char-id").value;
+            actualImg = form.querySelector('img').src.split(',');
+            if (form.querySelector("#form-image").files[0] != undefined) {
+                file = form.querySelector("#form-image").files[0];
+                reader_1 = new FileReader();
+                reader_1.onloadend = function () {
+                    var split = reader_1.result.split(',');
+                    axios_1.default.put(url + "characters/" + id, {
+                        name: form.querySelector("#form-name").value,
+                        shortDescription: form.querySelector("#form-short-description").value,
+                        description: form.querySelector("#form-description").value,
+                        image: split[1],
+                    })
+                        .then(function (response) {
+                        alert("character updated: " + id);
+                        document.location.href = "index";
+                    })
+                        .catch(function (err) { return console.error(err); });
+                };
+                reader_1.readAsDataURL(file);
+            }
+            else {
+                axios_1.default.put(url + "characters/" + id, {
+                    name: form.querySelector("#form-name").value,
+                    shortDescription: form.querySelector("#form-short-description").value,
+                    description: form.querySelector("#form-description").value,
+                    image: actualImg[1],
+                })
+                    .then(function (response) {
+                    alert("character updated: " + id);
+                    document.location.href = "index";
+                })
+                    .catch(function (err) { return console.error(err); });
+            }
+            return [2 /*return*/];
+        });
+    });
+}
+function populateForm(id) {
+    return __awaiter(this, void 0, void 0, function () {
+        var form;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    form = document.querySelector("#form-new-char");
+                    return [4 /*yield*/, axios_1.default.get(url + "characters/" + id).then(function (response) {
+                            form.querySelector("#form-name").value = response.data.name;
+                            form.querySelector("#form-short-description").value = response.data.shortDescription;
+                            form.querySelector("#form-description").value = response.data.description;
+                            form.querySelector("#form-char-id").value = response.data.id;
+                            var para = document.createElement('p');
+                            para.innerText = "Image actuelle :";
+                            var img = document.createElement('img');
+                            img.src = "data:image/png;base64," + response.data.image;
+                            form.appendChild(para);
+                            form.appendChild(img);
+                            document.querySelector("#new-char").onclick = function () { updateChar(form); };
+                        })];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
 if (document.location.pathname == "/index") {
     getAllChar();
 }
-else if (document.location.pathname.startsWith("/viewchar")) {
-    getChar(document.location.search.substring(3));
+else if (document.location.pathname.startsWith("/viewChar")) {
+    getCharAndDisplay(document.location.search.substring(3));
+}
+else if (document.location.pathname.startsWith("/editChar")) {
+    formNewChar();
+    populateForm(document.location.search.substring(3));
 }
 else if (document.location.pathname.startsWith("/newchar")) {
     console.log('hello new char');
     formNewChar();
+    newChar.addEventListener('click', function () {
+        var form = document.querySelector("#form-new-char");
+        var file = form.querySelector("#form-image").files[0];
+        var reader = new FileReader();
+        reader.onloadend = function () {
+            var split = reader.result.split(',');
+            axios_1.default.post(url + "characters", {
+                name: form.querySelector("#form-name").value,
+                shortDescription: form.querySelector("#form-short-description").value,
+                description: form.querySelector("#form-description").value,
+                image: split[1],
+            })
+                .then(function (response) {
+                alert("New character created : " + response.data.id);
+                document.location.href = "index";
+            })
+                .catch(function (err) { return console.error(err); });
+            console.log(JSON.stringify(newChar));
+        };
+        reader.readAsDataURL(file);
+    });
 }
 else {
     document.location.href = "/index";

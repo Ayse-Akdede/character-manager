@@ -25,37 +25,35 @@ newButton.addEventListener('click', () => {
     }
 })
 
-newChar.addEventListener('click', () => {
-    let form: Node = document.querySelector("#form-new-char");
-    console.log(form.querySelector("#form-name").value);
-    console.log(form.querySelector("#form-short-description").value);
-    console.log(form.querySelector("#form-description").innerText);
-    console.log(form.querySelector("#form-image").value);
-})
-
 let chars: Array<Object> = [];
 
-
-async function closeModal() {
+function closeModal() {
     document.querySelector("#modal").style.display = "none";
 }
 
-
-async function viewChar(id: String) {
-    document.location.href = `viewchar?p=${id}`;
+function routeViewChar(id: String) {
+    document.location.href = `viewChar?p=${id}`;
 }
 
-async function deleteChar(id: String) {
-    console.log(`want to deleted : ${id}`);
+async function delChar(id: String) {
+    await axios.delete(`${url}characters/${id}`)
+        .then(response => {
+            alert("Character deleted with success !");
+            closeModal();
+            window.location.href = '/index';
+        })
+        .catch(err => console.error(err));
+}
+
+function routeDeleteChar(id: String) {
     document.querySelector("#modal").style.display = "block";
     document.querySelector("#close-modal").onclick = function () { closeModal() };
+    document.querySelector("#del-char").onclick = function () { delChar(id) };
     document.querySelector(".idChar").innerHTML = id;
-    //await axios.delete()
 }
 
-async function editChar(id: String) {
-    console.log(`want to mod : ${id}`);
-    await axios.get()
+async function routeEditChar(id: String) {
+    document.location.href = `editChar?p=${id}`;
 }
 
 function displayAllCharacter(char: Object): void {
@@ -64,10 +62,20 @@ function displayAllCharacter(char: Object): void {
     clone.querySelector(".image").src = `data:image/png;base64,${char.image}`;
     clone.querySelector(".name").innerHTML = char.name;
     clone.querySelector(".short-description").innerHTML = char.shortDescription;
-    clone.querySelector("#delete").onclick = function () { deleteChar(char.id) };
-    clone.querySelector("#modify").onclick = function () { editChar(char.id) };
-    clone.querySelector(".wrapper").onclick = function () { viewChar(char.id) };
+    clone.querySelector("#delete").onclick = function () { routeDeleteChar(char.id) };
+    clone.querySelector("#modify").onclick = function () { routeEditChar(char.id) };
+    clone.querySelector(".wrapper").onclick = function () { routeViewChar(char.id) };
     target.appendChild(clone);
+}
+
+function displayChar(char: Object): void {
+    let clone: HTMLElement = <HTMLElement>tplSingle.cloneNode(true).content;
+    clone.querySelector(".image").src = `data:image/jpeg;base64,${char.image}`;
+    clone.querySelector(".name").innerHTML = char.name;
+    clone.querySelector(".description").innerHTML = char.description;
+    clone.querySelector("#delete").onclick = function () { routeDeleteChar(char.id) };
+    clone.querySelector("#modify").onclick = function () { routeEditChar(char.id) };
+    single.appendChild(clone);
 }
 
 async function getAllChar() {
@@ -81,15 +89,9 @@ async function getAllChar() {
     }).catch(err => { console.error(err) })
 }
 
-async function getChar(id: String) {
+async function getCharAndDisplay(id: String) {
     axios.get(`${url}characters/${id}`).then(data => {
-        let clone: HTMLElement = <HTMLElement>tplSingle.cloneNode(true).content;
-        clone.querySelector(".image").src = `data:image/jpeg;base64,${data.data.image}`;
-        clone.querySelector(".name").innerHTML = data.data.name;
-        clone.querySelector(".description").innerHTML = data.data.Description;
-        clone.querySelector("#delete").onclick = function () { deleteChar(data.data.id) };
-        clone.querySelector("#modify").onclick = function () { editChar(data.data.id) };
-        single.appendChild(clone);
+        displayChar(data.data);
     }).catch(err => { console.error(err) })
 }
 
@@ -97,13 +99,90 @@ async function formNewChar() {
     document.querySelector("#form-new-char").style.display = "block";
 }
 
+async function updateChar(form: HTMLCollection) {
+    let id = form.querySelector("#form-char-id").value;
+    let actualImg = form.querySelector('img').src.split(',');
+    if (form.querySelector("#form-image").files[0] != undefined) {
+        let file = form.querySelector("#form-image").files[0];
+        let reader = new FileReader();
+        reader.onloadend = function () {
+            let split = reader.result.split(',');
+            axios.put(`${url}characters/${id}`, {
+                name: form.querySelector("#form-name").value,
+                shortDescription: form.querySelector("#form-short-description").value,
+                description: form.querySelector("#form-description").value,
+                image: split[1],
+            })
+                .then(response => {
+                    alert(`character updated: ${id}`);
+                    document.location.href = "index";
+                })
+                .catch(err => console.error(err))
+        }
+        reader.readAsDataURL(file);
+    } else {
+        axios.put(`${url}characters/${id}`, {
+            name: form.querySelector("#form-name").value,
+            shortDescription: form.querySelector("#form-short-description").value,
+            description: form.querySelector("#form-description").value,
+            image: actualImg[1],
+        })
+            .then(response => {
+                alert(`character updated: ${id}`);
+                document.location.href = "index";
+            })
+            .catch(err => console.error(err))  
+    }
+}
+
+async function populateForm(id: String) {
+    let form = document.querySelector("#form-new-char");
+    await axios.get(`${url}characters/${id}`).then(response => {
+        form.querySelector("#form-name").value = response.data.name;
+        form.querySelector("#form-short-description").value = response.data.shortDescription;
+        form.querySelector("#form-description").value = response.data.description;
+        form.querySelector("#form-char-id").value = response.data.id;
+        let para = document.createElement('p');
+        para.innerText = "Image actuelle :";
+        let img = document.createElement('img');
+        img.src = `data:image/png;base64,${response.data.image}`;
+        form.appendChild(para);
+        form.appendChild(img);
+        document.querySelector("#new-char").onclick = function () { updateChar(form) };
+    })
+}
+
 if (document.location.pathname == "/index") {
     getAllChar();
-} else if (document.location.pathname.startsWith("/viewchar")) {
-    getChar(document.location.search.substring(3));
+} else if (document.location.pathname.startsWith("/viewChar")) {
+    getCharAndDisplay(document.location.search.substring(3));
+} else if (document.location.pathname.startsWith("/editChar")) {
+    formNewChar();
+    populateForm(document.location.search.substring(3));
 } else if (document.location.pathname.startsWith("/newchar")) {
     console.log('hello new char');
     formNewChar()
+    newChar.addEventListener('click', () => {
+        let form: Node = document.querySelector("#form-new-char");
+        let file = form.querySelector("#form-image").files[0];
+        let reader = new FileReader();
+        reader.onloadend = function () {
+            let split = reader.result.split(',');
+            axios.post(`${url}characters`, {
+                name: form.querySelector("#form-name").value,
+                shortDescription: form.querySelector("#form-short-description").value,
+                description: form.querySelector("#form-description").value,
+                image: split[1],
+            })
+                .then(response => {
+                    alert(`New character created : ${response.data.id}`);
+                    document.location.href = "index";
+                })
+                .catch(err => console.error(err))
+            console.log(JSON.stringify(newChar))
+        }
+        reader.readAsDataURL(file);
+    })
 } else {
     document.location.href = "/index";
 }
