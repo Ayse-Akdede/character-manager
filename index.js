@@ -63,14 +63,10 @@ function viewChar(id) {
 function deleteChar(id) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    console.log("want to deleted : " + id);
-                    return [4 /*yield*/, axios_1.default.delete()];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/];
-            }
+            console.log("want to deleted : " + id);
+            document.querySelector("#modal").style.display = "block";
+            document.querySelector(".idChar").innerHTML = id;
+            return [2 /*return*/];
         });
     });
 }

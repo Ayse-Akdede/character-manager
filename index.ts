@@ -22,7 +22,9 @@ async function viewChar(id: String) {
 
 async function deleteChar(id: String) {
     console.log(`want to deleted : ${id}`);
-    await axios.delete()
+    document.querySelector("#modal").style.display = "block";
+    document.querySelector(".idChar").innerHTML = id;
+    //await axios.delete()
 }
 
 async function editChar(id: String) {

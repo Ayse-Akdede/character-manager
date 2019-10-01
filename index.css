@@ -1,0 +1,30 @@
+header {
+    padding: 50px;
+    text-align: center;
+}
+
+#new {
+    margin: 30px;
+}
+
+.character {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.name {
+    border: 1px solid black;
+    text-align: center;
+}
+
+#modal {
+    display:none;
+    background-color: red;
+    width: 500px;
+    height: 500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
