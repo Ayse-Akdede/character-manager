@@ -22,23 +22,37 @@
 
     <div class="container">
         <div class="row" id="target">
-            
+
         </div>
     </div>
     <template id="template">
-            <div class="col-3">
-                <li class="character">
-                    <img class="image" src="data:image/png">
+        <div class="col-3">
+            <div class="character">
+                <div class="wrapper">
+                    <img class="image" src="">
                     <h4 class="name"></h4>
-                    <input type="hidden" value="" />
                     <p class="short-description"></p>
-                    <button type="button" id="delete">Delete</button>
-                    <button type="button" id="modify">Modify</button>
-                </li>
+                </div>
+                <button type="button" id="delete">Delete</button>
+                <button type="button" id="modify">Modify</button>
             </div>
+        </div>
+    </template>
+    <template id="singleChar">
+        <div class="col-12">
+            <div class="character">
+                <div class="wrapper">
+                    <img class="image" src="">
+                    <h4 class="name"></h4>
+                    <p class="description"></p>
+                </div>
+                <button type="button" id="delete">Delete</button>
+                <button type="button" id="modify">Modify</button>
+            </div>
+        </div>
     </template>
     <div id="single"></div>
-        <script src="index.js"></script>
+    <script src="index.js"></script>
 </body>
 
 </html>
