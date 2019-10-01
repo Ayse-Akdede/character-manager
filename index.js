@@ -47,12 +47,66 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var axios_1 = __importDefault(require("axios"));
 var url = "https://character-database.becode.xyz/";
+var tpl = document.querySelector("#template");
+var target = document.querySelector("#target");
+var chars = [];
+function viewChar(id) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            document.location.href = "viewchar?p=" + id;
+            return [2 /*return*/];
+        });
+    });
+}
+function deleteChar(id) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    console.log("want to deleted : " + id);
+                    return [4 /*yield*/, axios_1.default.delete()];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+function editChar(id) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    console.log("want to mod : " + id);
+                    return [4 /*yield*/, axios_1.default.get()];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+function displayCharacter(char) {
+    var clone = tpl.cloneNode(true).content;
+    clone.querySelector(".image").src = "data:image/png;base64," + char.image;
+    clone.querySelector(".name").innerHTML = char.name;
+    clone.querySelector(".short-description").innerHTML = char.shortDescription;
+    clone.querySelector("#delete").onclick = function () { deleteChar(char.id); };
+    clone.querySelector("#modify").onclick = function () { editChar(char.id); };
+    clone.querySelector(".col-3").onclick = function () { viewChar(char.id); };
+    target.appendChild(clone);
+}
 function getAllChar() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, axios_1.default.get(url + "characters").then(function (data) {
-                        console.log(data);
+                        data.data.forEach(function (elt) {
+                            chars.push(elt);
+                        });
+                        chars.forEach(function (char, index) {
+                            displayCharacter(char);
+                        });
                     }).catch(function (err) { console.error(err); })];
                 case 1:
                     _a.sent();
@@ -61,4 +115,17 @@ function getAllChar() {
         });
     });
 }
-getAllChar();
+if (document.location.pathname == "/index") {
+    console.log(document.location);
+    getAllChar();
+    console.log(tpl);
+    console.log(target);
+}
+else if (document.location.pathname.startsWith("/viewchar")) {
+    console.log(document.location);
+    console.log("hello");
+    console.log(document.location.search);
+}
+else {
+    document.location.href = "/index";
+}
