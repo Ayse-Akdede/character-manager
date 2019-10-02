@@ -7,27 +7,28 @@
 
 import axios from "axios";
 import { closeModal, formChar, Char, tpl, tplSingle, target, single, newChar, showModal } from "./utils"
+
 const url = "https://character-database.becode.xyz/";
 let chars: Array<Object> = [];
 
 function displayAllCharacter(char: Char): void {
     let clone = <HTMLElement>tpl.cloneNode(true).content;
-    clone.querySelector(".image").src = `data:image/png;base64,${char.image}`;
-    clone.querySelector(".name").innerHTML = char.name;
-    clone.querySelector(".short-description").innerHTML = char.shortDescription;
-    clone.querySelector("#delete").onclick = function () { routeDeleteChar(char.id) };
-    clone.querySelector("#modify").onclick = function () { routeEditChar(char.id) };
-    clone.querySelector(".wrapper").onclick = function () { routeViewChar(char.id) };
+    (<HTMLImageElement>clone.querySelector(".image")!).src = `data:image/png;base64,${char.image}`;
+    clone.querySelector(".name")!.innerHTML = char.name;
+    clone.querySelector(".short-description")!.innerHTML = char.shortDescription;
+    (<HTMLButtonElement>clone.querySelector("#delete")!).onclick = function () { routeDeleteChar(char.id) };
+    (<HTMLButtonElement>clone.querySelector("#modify")!).onclick = function () { routeEditChar(char.id) };
+    (<HTMLButtonElement>clone.querySelector(".wrapper")!).onclick = function () { routeViewChar(char.id) };
     target.appendChild(clone);
 }
 
 function displayChar(char: Char): void {
     let clone = <HTMLElement>tplSingle.cloneNode(true).content;
-    clone.querySelector(".image").src = `data:image/jpeg;base64,${char.image}`;
-    clone.querySelector(".name").innerHTML = char.name;
-    clone.querySelector(".description").innerHTML = char.description;
-    clone.querySelector("#delete").onclick = function () { routeDeleteChar(char.id) };
-    clone.querySelector("#modify").onclick = function () { routeEditChar(char.id) };
+    (<HTMLImageElement>clone.querySelector(".image")!).src = `data:image/png;base64,${char.image}`;
+    clone.querySelector(".name")!.innerHTML = char.name;
+    clone.querySelector(".description")!.innerHTML = char.description;
+    (<HTMLButtonElement>clone.querySelector("#delete")!).onclick = function () { routeDeleteChar(char.id) };
+    (<HTMLButtonElement>clone.querySelector("#modify")!).onclick = function () { routeEditChar(char.id) };
     single.appendChild(clone);
 }
 
@@ -47,7 +48,7 @@ export async function getAllChar() {
             chars.push(elt);
         });
         chars.forEach((char, index) => {
-            displayAllCharacter(char);
+            displayAllCharacter(<Char>char);
         })
     }).catch(err => { console.error(err) })
 }
@@ -79,25 +80,25 @@ export async function populateForm(id: String) {
 }
 
 export async function updateChar(form: HTMLFormElement) {
-    let id = form.querySelector("#form-char-id")!.value;
+    let id = <HTMLInputElement>form.querySelector("#form-char-id")!;
     let actualImg = form.querySelector('img')!.src.split(',');
     let newImg = <HTMLInputElement>form.querySelector("#form-image")!.files[0];
     if (newImg != undefined) {
         let file = <unknown>newImg;
         let reader = new FileReader();
         reader.onloadend = function () {
-            let split = reader.result!.split(',');
+            let split = (<string>reader.result!).split(',');
             let name = <HTMLInputElement>form.querySelector("#form-name")!;
             let shortDescription = <HTMLInputElement>form.querySelector("#form-short-description");
             let description = <HTMLInputElement>form.querySelector("#form-description");
-            axios.put(`${url}characters/${id}`, {
+            axios.put(`${url}characters/${id.value}`, {
                 name: name.value,
                 shortDescription: shortDescription.value,
                 description: description.value,
                 image: split[1],
             })
                 .then(response => {
-                    alert(`character updated: ${id}`);
+                    alert(`character updated: ${id.value}`);
                     document.location.href = "index";
                 })
                 .catch(err => console.error(err))
@@ -107,14 +108,14 @@ export async function updateChar(form: HTMLFormElement) {
         let name = <HTMLInputElement>form.querySelector("#form-name")!;
         let shortDescription = <HTMLInputElement>form.querySelector("#form-short-description");
         let description = <HTMLInputElement>form.querySelector("#form-description");
-        axios.put(`${url}characters/${id}`, {
+        axios.put(`${url}characters/${id.value}`, {
             name: name.value,
             shortDescription: shortDescription.value,
             description: description.value,
             image: actualImg[1],
         })
             .then(response => {
-                alert(`character updated: ${id}`);
+                alert(`character updated: ${id.value}`);
                 document.location.href = "index";
             })
             .catch(err => console.error(err))

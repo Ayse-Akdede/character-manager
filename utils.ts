@@ -15,10 +15,10 @@ export const modal = <HTMLDivElement>document.querySelector("#modal");
 export const formChar = <HTMLFormElement>document.querySelector("#form-new-char");
 
 export interface Char {
-    id: String;
-    name: String;
-    shortDescription: String;
-    description: String;
+    id: string;
+    name: string;
+    shortDescription: string;
+    description: string;
     image: Blob;
 }
 
@@ -39,5 +39,4 @@ export function formNewChar() {
         formChar.style.display = "block";
     }
 }
-
 

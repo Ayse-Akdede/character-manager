@@ -61,7 +61,7 @@ function displayAllCharacter(char) {
 }
 function displayChar(char) {
     var clone = utils_1.tplSingle.cloneNode(true).content;
-    clone.querySelector(".image").src = "data:image/jpeg;base64," + char.image;
+    clone.querySelector(".image").src = "data:image/png;base64," + char.image;
     clone.querySelector(".name").innerHTML = char.name;
     clone.querySelector(".description").innerHTML = char.description;
     clone.querySelector("#delete").onclick = function () { routeDeleteChar(char.id); };
@@ -153,7 +153,7 @@ function updateChar(form) {
     return __awaiter(this, void 0, void 0, function () {
         var id, actualImg, newImg, file, reader_1, name_1, shortDescription, description;
         return __generator(this, function (_a) {
-            id = form.querySelector("#form-char-id").value;
+            id = form.querySelector("#form-char-id");
             actualImg = form.querySelector('img').src.split(',');
             newImg = form.querySelector("#form-image").files[0];
             if (newImg != undefined) {
@@ -164,14 +164,14 @@ function updateChar(form) {
                     var name = form.querySelector("#form-name");
                     var shortDescription = form.querySelector("#form-short-description");
                     var description = form.querySelector("#form-description");
-                    axios_1.default.put(url + "characters/" + id, {
+                    axios_1.default.put(url + "characters/" + id.value, {
                         name: name.value,
                         shortDescription: shortDescription.value,
                         description: description.value,
                         image: split[1],
                     })
                         .then(function (response) {
-                        alert("character updated: " + id);
+                        alert("character updated: " + id.value);
                         document.location.href = "index";
                     })
                         .catch(function (err) { return console.error(err); });
@@ -182,14 +182,14 @@ function updateChar(form) {
                 name_1 = form.querySelector("#form-name");
                 shortDescription = form.querySelector("#form-short-description");
                 description = form.querySelector("#form-description");
-                axios_1.default.put(url + "characters/" + id, {
+                axios_1.default.put(url + "characters/" + id.value, {
                     name: name_1.value,
                     shortDescription: shortDescription.value,
                     description: description.value,
                     image: actualImg[1],
                 })
                     .then(function (response) {
-                    alert("character updated: " + id);
+                    alert("character updated: " + id.value);
                     document.location.href = "index";
                 })
                     .catch(function (err) { return console.error(err); });
