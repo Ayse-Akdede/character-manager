@@ -15,6 +15,15 @@ h1 {
 
 #new {
     margin: 30px;
+    border: none;
+    padding: 15px;
+    font-size: 20px;
+    border-radius: 5px;
+}
+
+#new:hover {
+    background-color: grey;
+    color: white;
 }
 
 
@@ -27,8 +36,8 @@ h1 {
     background-color: #99cccc;
 }
 
-#delete,
-#modify {
+#target #delete,
+#target #modify {
     margin: 10px;
     display: inline-flex;
     justify-content: space-around;
@@ -36,10 +45,24 @@ h1 {
 
 #modify {
     width: 40%;
+    border: none;
+    background-color: #FF7F50;
+    color: white;
+    border-radius: 3px;
 }
 
 #delete {
     width: 40%;
+    border: none;
+    background-color: #DC143C;
+    color: white;
+    border-radius: 3px;
+}
+
+#modify:hover,
+#delete:hover {
+    background-color: grey;
+    color: white;
 }
 
 .name {
@@ -49,12 +72,13 @@ h1 {
     margin-left: 5px;
     text-transform: capitalize;
     background-color: #519bb3;
+    word-wrap: break-word;
 
 }
 
 #modal {
-    display:none;
-    background-color: rgba(0,0,0,0.5);
+    display: none;
+    background-color: rgba(0, 0, 0, 0.5);
     width: 100vw;
     height: 100vh;
     position: fixed;
@@ -80,7 +104,36 @@ h1 {
 
 .form-group {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    margin-top: 30px;
+}
+
+.form-group label {
+    width: 200px;
+    margin: 10px 0 10px 40px;
+}
+
+.form-group input {
+    width: 500px;
+}
+
+.form-group textarea {
+    width: 500px;
+}
+
+#form-new-char p {
+
+    margin: -290px 300px 10px 855px;
+    font-family: 'Righteous', cursive;
+
+}
+
+#form-new-char img {
+
+    widows: 200px;
+    height: 200px;
+    margin: 0px 250px 0 853px;
+
 }
 
 #modal p,
@@ -105,7 +158,25 @@ span {
 
 #modal button {
     display: inline;
-    margin: 30px 75px;
+    margin: 0 0 30px 150px;
+    color: white;
+    padding: 5px;
+}
+
+#modal button:hover {
+    background-color: rgba(0, 0, 0, 0.384);
+    color: black;
+}
+
+#del-char {
+    background-color: red;
+    border: none;
+
+}
+
+#close-modal {
+    background-color: rgb(83, 82, 82);
+    border: none;
 }
 
 #target img {
@@ -115,6 +186,10 @@ span {
     justify-content: center;
     margin: 5px 0px 15px 25%;
     cursor: pointer;
+}
+
+#target p {
+    padding: 10px;
 }
 
 
@@ -130,17 +205,53 @@ span {
 #single #details {
     display: inline-flex;
     flex-direction: column;
-    width: 75%;
-    margin-top: 0px;
+    padding: 10px;
+    width: 70%;
+    margin: 20px;
     height: 100px;
-
 
 }
 
-.wrapper {
+#details .name {
+    width: 70%;
+}
+
+#single .wrapper {
     padding: 10px;
+    display: inline-flex;
+    width: 100%;
+
 }
 
 #single {
     width: 100%;
+    display: flex;
+}
+
+#single button {
+    width: 150px;
+    padding: 10px;
+    font-size: 20px;
+    display: inline;
+    margin: 10px;
+}
+
+#single #delete {
+    margin-right: 0px;
+}
+
+#single #modify {
+    margin-left: 0px;
+}
+
+form div {
+    display: inline-flex;
+}
+
+#new-char {
+    float: right;
+    margin-right: 240px;
+    border: none;
+    border-radiues: 5px;
+    border-radius: 3px;
 }
