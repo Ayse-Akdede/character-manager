@@ -10,6 +10,9 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- Style CSS -->
     <link rel="stylesheet" type="text/css" href="index.css">
+    <!-- Link Police -->
+    <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
     <title>Document</title>
 </head>
 
@@ -26,7 +29,7 @@
         </div>
     </div>
     <template id="template">
-        <div class="col-3">
+        <div class="col-sm col-md-3">
             <div class="character">
                 <div class="wrapper">
                     <img class="image" src="">
@@ -43,8 +46,10 @@
             <div class="character">
                 <div class="wrapper">
                     <img class="image" src="">
-                    <h4 class="name"></h4>
-                    <p class="description"></p>
+                    <div id="details">
+                        <h4 class="name"></h4>
+                        <p class="description"></p>
+                    </div>
                 </div>
                 <button type="button" id="delete">Delete</button>
                 <button type="button" id="modify">Modify</button>
