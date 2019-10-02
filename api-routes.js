@@ -47,6 +47,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var axios_1 = __importDefault(require("axios"));
 var utils_1 = require("./utils");
+var showdown_1 = __importDefault(require("showdown"));
+var converter = new showdown_1.default.Converter();
 var url = "https://character-database.becode.xyz/";
 var chars = [];
 function displayAllCharacter(char) {
@@ -63,7 +65,7 @@ function displayChar(char) {
     var clone = utils_1.tplSingle.cloneNode(true).content;
     clone.querySelector(".image").src = "data:image/png;base64," + char.image;
     clone.querySelector(".name").innerHTML = char.name;
-    clone.querySelector(".description").innerHTML = char.description;
+    clone.querySelector(".description").innerHTML = converter.makeHtml(char.description);
     clone.querySelector("#delete").onclick = function () { routeDeleteChar(char.id); };
     clone.querySelector("#modify").onclick = function () { routeEditChar(char.id); };
     utils_1.single.appendChild(clone);
@@ -137,8 +139,11 @@ function populateForm(id) {
                             para.innerText = "Image actuelle :";
                             var img = document.createElement('img');
                             img.src = "data:image/png;base64," + response.data.image;
-                            utils_1.formChar.appendChild(para);
-                            utils_1.formChar.appendChild(img);
+                            var divTemp = document.createElement("div");
+                            divTemp.className = "wrapper-actual";
+                            divTemp.appendChild(para);
+                            divTemp.appendChild(img);
+                            utils_1.formChar.appendChild(divTemp);
                             utils_1.newChar.onclick = function () { updateChar(utils_1.formChar); };
                         })];
                 case 1:

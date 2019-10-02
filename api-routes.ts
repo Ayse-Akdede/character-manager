@@ -7,7 +7,8 @@
 
 import axios from "axios";
 import { closeModal, formChar, Char, tpl, tplSingle, target, single, newChar, showModal } from "./utils"
-
+import showdown from "showdown";
+let converter = new showdown.Converter();
 const url = "https://character-database.becode.xyz/";
 let chars: Array<Object> = [];
 
@@ -26,7 +27,7 @@ function displayChar(char: Char): void {
     let clone = <HTMLElement>tplSingle.cloneNode(true).content;
     (<HTMLImageElement>clone.querySelector(".image")!).src = `data:image/png;base64,${char.image}`;
     clone.querySelector(".name")!.innerHTML = char.name;
-    clone.querySelector(".description")!.innerHTML = char.description;
+    clone.querySelector(".description")!.innerHTML = converter.makeHtml(char.description);
     (<HTMLButtonElement>clone.querySelector("#delete")!).onclick = function () { routeDeleteChar(char.id) };
     (<HTMLButtonElement>clone.querySelector("#modify")!).onclick = function () { routeEditChar(char.id) };
     single.appendChild(clone);
@@ -73,8 +74,11 @@ export async function populateForm(id: String) {
         para.innerText = "Image actuelle :";
         let img = document.createElement('img');
         img.src = `data:image/png;base64,${response.data.image}`;
-        formChar.appendChild(para);
-        formChar.appendChild(img);
+        let divTemp = document.createElement("div");
+        divTemp.className = "wrapper-actual";
+        divTemp.appendChild(para);
+        divTemp.appendChild(img);
+        formChar.appendChild(divTemp);
         newChar.onclick = function () { updateChar(formChar) };
     })
 }

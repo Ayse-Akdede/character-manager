@@ -36,7 +36,7 @@ export function showModal() {
 
 export function formNewChar() {
     if (formChar) {
-        formChar.style.display = "block";
+        formChar.style.display = "flex";
     }
 }
 

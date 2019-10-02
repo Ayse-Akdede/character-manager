@@ -28,7 +28,7 @@ function showModal() {
 exports.showModal = showModal;
 function formNewChar() {
     if (exports.formChar) {
-        exports.formChar.style.display = "block";
+        exports.formChar.style.display = "flex";
     }
 }
 exports.formNewChar = formNewChar;

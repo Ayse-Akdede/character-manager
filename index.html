@@ -29,30 +29,34 @@
         </div>
     </div>
     <template id="template">
-        <div class="col-sm col-md-3">
+        <div class="col-12 col-sm-6 col-md-3">
             <div class="character">
                 <div class="wrapper">
                     <img class="image" src="">
                     <h4 class="name"></h4>
                     <p class="short-description"></p>
                 </div>
-                <button type="button" id="delete">Delete</button>
-                <button type="button" id="modify">Modify</button>
+                <div class="wrapper-btn">
+                    <button type="button" id="delete">Delete</button>
+                    <button type="button" id="modify">Modify</button>
+                </div>
             </div>
         </div>
     </template>
     <template id="singleChar">
         <div class="col-12">
             <div class="character">
-                <div class="wrapper">
+                <div class="wrapper-single">
                     <img class="image" src="">
                     <div id="details">
                         <h4 class="name"></h4>
                         <p class="description"></p>
                     </div>
                 </div>
-                <button type="button" id="delete">Delete</button>
-                <button type="button" id="modify">Modify</button>
+                <div class="wrapper-btn">
+                    <button type="button" id="delete">Delete</button>
+                    <button type="button" id="modify">Modify</button>
+                </div>
             </div>
         </div>
     </template>
@@ -61,8 +65,11 @@
         <div id="modal-box">
             <p>Êtes-vous sûr(e) de vouloir supprimer l'élément:</p>
             <span class="idChar"></span>
-            <button id="del-char" type="button">Supprimer</button>
-            <button id="close-modal" type="button">Annuler</button>
+            <div class="wrapper-btn">
+                <button id="del-char" type="button">Supprimer</button>
+                <button id="close-modal" type="button">Annuler</button>
+            </div>
+
         </div>
     </div>
     <div id="form-new-char">
