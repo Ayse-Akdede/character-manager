@@ -4,7 +4,8 @@
   "description": "Dashboard for displaying, create, delete, modify",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel build index.html"
   },
   "repository": {
     "type": "git",
