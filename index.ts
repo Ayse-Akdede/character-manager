@@ -58,7 +58,7 @@ async function routeEditChar(id: String) {
 
 function displayAllCharacter(char: Object): void {
 
-    let clone: HTMLElement = <HTMLElement>tpl.cloneNode(true).content;
+    let clone: HTMLElement = tpl.cloneNode(true).content;
     clone.querySelector(".image").src = `data:image/png;base64,${char.image}`;
     clone.querySelector(".name").innerHTML = char.name;
     clone.querySelector(".short-description").innerHTML = char.shortDescription;
