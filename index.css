@@ -14,18 +14,17 @@ h1 {
 }
 
 #new {
-    margin: 30px;
+    margin: 0px;
     border: none;
-    padding: 15px;
+    padding: 5px 15px 5px 15px;
     font-size: 20px;
     border-radius: 5px;
 }
 
 #new:hover {
-    background-color: grey;
+    background-color: rgba(0, 0, 0, 0.384);
     color: white;
 }
-
 
 .character {
     list-style: none;
@@ -61,7 +60,7 @@ h1 {
 
 #modify:hover,
 #delete:hover {
-    background-color: grey;
+    background-color: rgba(0, 0, 0, 0.384);
     color: white;
 }
 
@@ -73,7 +72,6 @@ h1 {
     text-transform: capitalize;
     background-color: #519bb3;
     word-wrap: break-word;
-
 }
 
 #modal {
@@ -129,11 +127,9 @@ h1 {
 }
 
 #form-new-char img {
-
     widows: 200px;
     height: 200px;
     margin: 0px 250px 0 853px;
-
 }
 
 #modal p,
@@ -142,7 +138,7 @@ h1 {
     line-height: 30px;
     text-align: center;
     font-family: 'Righteous', cursive;
-
+    font-size: 20px;
 }
 
 p,
@@ -171,7 +167,6 @@ span {
 #del-char {
     background-color: red;
     border: none;
-
 }
 
 #close-modal {
@@ -199,7 +194,6 @@ span {
     display: inline-block;
     vertical-align: middle;
     margin: 5px 0px 5px 0px;
-
 }
 
 #single #details {
@@ -220,7 +214,6 @@ span {
     padding: 10px;
     display: inline-flex;
     width: 100%;
-
 }
 
 #single {
@@ -249,9 +242,13 @@ form div {
 }
 
 #new-char {
-    float: right;
-    margin-right: 240px;
+    float: left;
+    margin-left: 240px;
     border: none;
-    border-radiues: 5px;
     border-radius: 3px;
+}
+
+#new-char:hover {
+    background-color: rgba(0, 0, 0, 0.384);
+    color: white;
 }
