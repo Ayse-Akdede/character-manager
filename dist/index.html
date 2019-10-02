@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--Bootstrap CSS-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Style CSS -->
+    <link rel="stylesheet" type="text/css" href="/character-manager.9ad09f98.css">
+    <!-- Link Police -->
+    <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <title>Document</title>
+<script src="/character-manager.9ad09f98.js"></script></head>
+
+<body>
+    <header>
+        <h1>Character Manager</h1>
+        <button type="button" id="new">New</button>
+    </header>
+
+
+    <div class="container">
+        <div class="row" id="target">
+
+        </div>
+    </div>
+    <template id="template">
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="character">
+                <div class="wrapper">
+                    <img class="image" src="">
+                    <h4 class="name"></h4>
+                    <p class="short-description"></p>
+                </div>
+                <div class="wrapper-btn">
+                    <button type="button" id="delete">Delete</button>
+                    <button type="button" id="modify">Modify</button>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="singleChar">
+        <div class="col-12">
+            <div class="character">
+                <div class="wrapper-single">
+                    <img class="image" src="">
+                    <div id="details">
+                        <h4 class="name"></h4>
+                        <p class="description"></p>
+                    </div>
+                </div>
+                <div class="wrapper-btn">
+                    <button type="button" id="delete">Delete</button>
+                    <button type="button" id="modify">Modify</button>
+                </div>
+            </div>
+        </div>
+    </template>
+    <div id="single"></div>
+    <div id="modal">
+        <div id="modal-box">
+            <p>Êtes-vous sûr(e) de vouloir supprimer l'élément:</p>
+            <span class="idChar"></span>
+            <div class="wrapper-btn">
+                <button id="del-char" type="button">Supprimer</button>
+                <button id="close-modal" type="button">Annuler</button>
+            </div>
+
+        </div>
+    </div>
+    <div id="form-new-char">
+        <form>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="form-name">
+            </div>
+            <div class="form-group">
+                <label for="short-description">Short description</label>
+                <input type="text" id="form-short-description">
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea type="text" id="form-description" placeholder="You can use **Markdown**"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="image"></label>
+                <input type="file" id="form-image">
+            </div>
+            <input id="form-char-id" type="hidden" value="">
+            <button type="button" id="new-char">Envoyer</button>
+        </form>
+    </div>
+    <script src="/character-manager.e31bb0bc.js"></script>
+</body>
+
+</html>
